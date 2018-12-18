@@ -1,25 +1,45 @@
 {
-  "log": {
+  "log" : {
+    
     "loglevel": "warning"
   },
   "inbound": {
-    "protocol": "vmess",
     "port": 9527,
+    "protocol": "vmess",
     "settings": {
       "clients": [
         {
           "id": "c63affc1-9711-cdfa-93b4-bf35c7976a6d",
-          "level": 1 ,
-          "alterId": 80
+          "level": 1,
+          "alterId": 64
         }
       ]
-    },
-    "streamSettings": {
-      "network": "ws"
     }
   },
+  "streamSettings": {
+      "network": "ws"
+    }
   "outbound": {
     "protocol": "freedom",
     "settings": {}
+  },
+  "outboundDetour": [
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    }
+  ],
+  "routing": {
+    "strategy": "rules",
+    "settings": {
+      "rules": [
+        {
+          "type": "field",
+          "ip": ["geoip:private"],
+          "outboundTag": "blocked"
+        }
+      ]
+    }
   }
 }
